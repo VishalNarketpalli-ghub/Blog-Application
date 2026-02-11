@@ -1,0 +1,147 @@
+### User Register
+POST http://localhost:4000/user-api/users
+Content-Type: application/json
+
+{
+    "firstName" : "kkkk",
+    "lastName" : "vfvf",
+    "email" : "123@gmail.com",
+    "password" : "jjk",
+    "profileImageUrl" : "http://example.com/avatar.png"
+}
+
+
+
+### login user
+GET  http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+    "email" : "123@gmail.com",
+    "password" : "123"
+}
+
+
+
+### read all articles for user
+GET http://localhost:4000/user-api/user/6989a7897ec9f73323d1221a
+
+
+
+
+### add comments to an article
+POST http://localhost:4000/user-api/users-comment
+Content-Type: application/json
+
+{
+    "uid" : "69897f0fa771e9ae87abe0f6",
+    "articleId" : "698991e30cc6202f5aebf2f5",
+    "comment" : "waste of time"
+}
+
+
+
+
+
+### Author Register
+POST http://localhost:4000/author-api/users
+Content-Type: application/json
+
+{
+    "firstName" : "lllll",
+    "lastName" : "Nark",
+    "email" : "hal@gmail.com",
+    "password" : "pswd",
+    "profileImageUrl" : "http://example.com/avatar.png"
+}
+
+
+### login Author
+POST http://localhost:4000/common-api/login
+Content-Type: application/json
+
+{
+    "email":"hal@gmail.com",
+    "password":"pswd",
+    "role":"AUTHOR"
+}
+
+
+
+
+###create article
+POST http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author" : "6989a9c97ec9f73323d1221c",
+    "title": "####",
+    "category" : "horror",
+    "content" : "the article is consisting ghost story"
+}
+
+
+### fetch articles
+GET http://localhost:4000/author-api/articles/69898124c5a4ed79bdbf30f3
+
+
+### Updaye article
+PUT http://localhost:4000/author-api/articles
+Content-Type: application/json
+
+{
+    "author": "69898124c5a4ed79bdbf30f3",
+    "articleId" : "698981fa43dae7525065aadc",
+    "title": "Bhalu",
+    "category" : "comedy",
+    "content": "sdjvbskdjv ksjdvbsdjbv "
+}
+
+
+### delete article (soft)
+PUT http://localhost:4000/author-api/articles-delete
+Content-Type: application/json
+
+{
+    "authorId": "69898124c5a4ed79bdbf30f3",
+    "articleId" : "698981fa43dae7525065aadc"
+}
+
+
+
+###logout
+GET http://localhost:4000/common-api/logout
+
+
+
+
+
+### change password
+PUT http://localhost:4000/common-api/change-password
+Content-Type: application/json
+
+{
+    "email": "123@gmail.com",
+    "currentPassword": "jjk",
+    "newPassword" : "123"
+}
+
+
+
+### Read all articles from admin
+GET http://localhost:4000/admin-api/read
+
+
+### block users
+GET http://localhost:4000/admin-api/block/6989a7897ec9f73323d1221a
+
+
+### unblock user
+GET http://localhost:4000/admin-api/un-block/6989a7897ec9f73323d1221a
+
+
+
+
+
+### checking invalid path route
+GET http://localhost:4000/author-api/invalid-path

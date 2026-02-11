@@ -1,0 +1,8 @@
+# Environment variables
+.env
+
+# Dependencies
+node_modules/
+
+# Or ignore only that specific file
+Bird-Eye-View-Of-Architecture.jpeg

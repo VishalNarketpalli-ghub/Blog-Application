@@ -1,0 +1,67 @@
+import exp from "express"
+import { connect } from "mongoose"
+import { config } from "dotenv"
+import { userRoute } from './APIs/UserAPI.js'
+import { authorApp } from './APIs/AuthorAPI.js'
+import { adminApp } from './APIs/AdminAPI.js'
+import cookieParser from "cookie-parser"
+import { commonRout } from "./APIs/CommonAPI.js"
+
+
+config()
+
+
+
+const app = exp();
+
+app.use(exp.json());
+
+
+
+// add body parser middleware
+
+
+app.use('/user-api', userRoute)
+app.use('/admin-api', adminApp)
+app.use('/author-api', authorApp)
+app.use('/common-api', commonRout)
+
+
+const connectDb = async () => {
+    try {
+        await connect(process.env.DB_URL)
+        console.log("DB is connected.. ")
+        app.listen(process.env.PORT, () => console.log("Server is running"))
+    } catch (error) {
+        console.log("error connecting to DB", error)
+    }
+}
+
+connectDb()
+
+
+// logout
+app.post("/logout", (req, res) => {
+    res.clearCookie('token',
+        {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax"
+        }
+    )
+    res.status(200).json({ messsage: "User logged out" })
+})
+
+
+// dealing with invalid path
+app.use((req, res, next) => {
+    // console.log(req.url)
+    res.status(200).json({ message: `${req.url} is invallid path` })
+})
+
+
+// error handeling middleware
+app.use((err, req, res, next) => {
+    console.log("error")
+    res.json({ message: "error", reason: err.message })
+})
