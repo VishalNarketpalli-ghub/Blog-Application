@@ -16,6 +16,8 @@ const app = exp();
 
 app.use(exp.json());
 
+app.use(cookieParser())
+
 
 
 // add body parser middleware

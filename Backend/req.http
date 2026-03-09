@@ -3,28 +3,28 @@ POST http://localhost:4000/user-api/users
 Content-Type: application/json
 
 {
-    "firstName" : "kkkk",
-    "lastName" : "vfvf",
-    "email" : "123@gmail.com",
-    "password" : "jjk",
+    "firstName" : "abhi",
+    "lastName" : "kk",
+    "email" : "a@gmail.com",
+    "password" : "123",
     "profileImageUrl" : "http://example.com/avatar.png"
 }
 
 
 
 ### login user
-GET  http://localhost:4000/common-api/login
+POST  http://localhost:4000/common-api/login
 Content-Type: application/json
 
 {
-    "email" : "123@gmail.com",
+    "email" : "a@gmail.com",
     "password" : "123"
 }
 
 
 
 ### read all articles for user
-GET http://localhost:4000/user-api/user/6989a7897ec9f73323d1221a
+GET http://localhost:4000/user-api/user/69aeeaa0a54ded8516c4ea94
 
 
 
@@ -34,9 +34,9 @@ POST http://localhost:4000/user-api/users-comment
 Content-Type: application/json
 
 {
-    "uid" : "69897f0fa771e9ae87abe0f6",
-    "articleId" : "698991e30cc6202f5aebf2f5",
-    "comment" : "waste of time"
+    "uid" : "69aeeaa0a54ded8516c4ea94",
+    "articleId" : "69aee3b90251a40e36443ba3",
+    "comment" : "Can do better broooo..."
 }
 
 
@@ -57,13 +57,12 @@ Content-Type: application/json
 
 
 ### login Author
-POST http://localhost:4000/common-api/login
+POST  http://localhost:4000/common-api/login
 Content-Type: application/json
 
 {
-    "email":"hal@gmail.com",
-    "password":"pswd",
-    "role":"AUTHOR"
+    "email" : "hal@gmail.com",
+    "password" : "pswd"
 }
 
 
@@ -72,26 +71,27 @@ Content-Type: application/json
 ###create article
 POST http://localhost:4000/author-api/articles
 Content-Type: application/json
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OWFlOTIxNDFiOTA1YmYzODIxZjUzZDMiLCJyb2xlIjoiQVVUSE9SIiwiZW1haWwiOiJoYWxAZ21haWwuY29tIiwiaWF0IjoxNzczMDY5MjE2LCJleHAiOjE3NzMwNzI4MTZ9.j50LCwvaHDZKhefYsqUPt1bSFe4z8_37NYgUxY5NShI
 
 {
-    "author" : "6989a9c97ec9f73323d1221c",
+    "author" : "69ae92141b905bf3821f53d3",
     "title": "####",
     "category" : "horror",
     "content" : "the article is consisting ghost story"
 }
 
 
-### fetch articles
-GET http://localhost:4000/author-api/articles/69898124c5a4ed79bdbf30f3
+### read articles from author (protected)
+GET http://localhost:4000/author-api/articles/69ae92141b905bf3821f53d3
 
 
 ### Updaye article
-PUT http://localhost:4000/author-api/articles
+PATCH http://localhost:4000/author-api/articles
 Content-Type: application/json
 
 {
-    "author": "69898124c5a4ed79bdbf30f3",
-    "articleId" : "698981fa43dae7525065aadc",
+    "author": "69ae92141b905bf3821f53d3",
+    "articleId" : "69aee3b90251a40e36443ba3",
     "title": "Bhalu",
     "category" : "comedy",
     "content": "sdjvbskdjv ksjdvbsdjbv "
@@ -103,8 +103,8 @@ PUT http://localhost:4000/author-api/articles-delete
 Content-Type: application/json
 
 {
-    "authorId": "69898124c5a4ed79bdbf30f3",
-    "articleId" : "698981fa43dae7525065aadc"
+    "authorId": "69ae92141b905bf3821f53d3",
+    "articleId" : "69aee3b90251a40e36443ba3"
 }
 
 
@@ -122,8 +122,8 @@ Content-Type: application/json
 
 {
     "email": "123@gmail.com",
-    "currentPassword": "jjk",
-    "newPassword" : "123"
+    "currentPassword": "123",
+    "newPassword" : "jjk"
 }
 
 

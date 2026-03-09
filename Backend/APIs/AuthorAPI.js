@@ -19,10 +19,16 @@ authorApp.post('/users', async (req, res) => {
 // authenticate author (public)
 
 // create article (protected)
-authorApp.post('/articles', verifyToken, checkAuthor, async (req, res) => {
+authorApp.post('/articles', verifyToken("AUTHOR"), async (req, res) => {
 
     // get the article
     let articleObj = req.body
+
+    // check if the authorId in req obj is same as req.user(Verified Author In cookie from jwt)
+    // console.log(req.user)
+    if (req.user.userId != articleObj.author) {
+        return res.status(401).json({ message: "unregistered author, login with valid user details" })
+    }
 
     // create article doc
     let articleDoc = new ArticleModel(articleObj)
@@ -35,7 +41,7 @@ authorApp.post('/articles', verifyToken, checkAuthor, async (req, res) => {
 })
 
 // read articles from author (protected)
-authorApp.get('/articles/:authorId', verifyToken, checkAuthor, async (req, res) => {
+authorApp.get('/articles/:authorId', verifyToken("AUTHOR"), async (req, res) => {
     // get the auther id
     let authorId = req.params.authorId
 
@@ -48,7 +54,7 @@ authorApp.get('/articles/:authorId', verifyToken, checkAuthor, async (req, res) 
 
 
 // edit article (protected)
-authorApp.put('/articles', verifyToken, checkAuthor, async (req, res) => {
+authorApp.patch('/articles', verifyToken("AUTHOR"), async (req, res) => {
     // get the update details from body
     let { articleId, author, title, category, content } = req.body
     // console.log(updateArticleObj)
@@ -63,7 +69,7 @@ authorApp.put('/articles', verifyToken, checkAuthor, async (req, res) => {
 })
 
 // delete article (soft) (protected)
-authorApp.put('/articles-delete', verifyToken, checkAuthor, async (req, res) => {
+authorApp.put('/articles-delete', verifyToken("AUTHOR"), async (req, res) => {
     // destructre
     let { authorId, articleId } = req.body
 

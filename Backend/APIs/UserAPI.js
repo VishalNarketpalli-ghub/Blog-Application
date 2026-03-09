@@ -3,6 +3,7 @@ import { register, authenticate } from '../services/authService.js'
 import { UserTypeModel } from '../Models/UserModel.js'
 import { ArticleModel } from '../Models/ArticleModel.js'
 import { checkUser } from '../middlewear/checkUser.js'
+import { verifyToken } from '../middlewear/verifyToken.js'
 
 export const userRoute = exp.Router()
 
@@ -21,7 +22,7 @@ userRoute.post('/users', async (req, res) => {
 
 
 // read all articles
-userRoute.get('/user/:uid', checkUser, async (req, res) => {
+userRoute.get('/user/:uid', verifyToken("USERS"), async (req, res) => {
 
     // check for valid user is done by middlewear   
 
@@ -35,7 +36,7 @@ userRoute.get('/user/:uid', checkUser, async (req, res) => {
 
 
 // add comment to an article
-userRoute.post('/users-comment', checkUser, async (req, res) => {
+userRoute.post('/users-comment', verifyToken("USERS"), async (req, res) => {
     // retreive uid, articleId, Comment from body
     let { uid, articleId, comment } = req.body
 

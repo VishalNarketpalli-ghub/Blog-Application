@@ -6,7 +6,7 @@ import { authenticate } from '../services/authService.js'
 export const commonRout = exp.Router()
 
 // login
-commonRout.get('/login', async (req, res) => {
+commonRout.post('/login', async (req, res) => {
     // store body in UserCred
     let userCred = req.body
 
@@ -22,7 +22,7 @@ commonRout.get('/login', async (req, res) => {
     })
 
     // send user response
-    res.status(200).json({ message: "user logged in successfully", payload: user })
+    res.status(200).json({ message: "user logged in successfully", payload: user, token: token })
 })
 
 // logout
@@ -46,8 +46,10 @@ commonRout.put('/change-password', async (req, res) => {
     // check user
     let { user } = await authenticate({ email: email, password: currentPassword })
 
+    console.log(user)
+
     //check if previous password === current password
-    if (password === newPassword) {
+    if (currentPassword === newPassword) {
         return res.status(401).json({ message: "Old password is should not be same as new password" })
     }
 
