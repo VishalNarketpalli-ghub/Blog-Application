@@ -2,6 +2,7 @@ import exp from 'express'
 import bcrypt from 'bcrypt'
 import { UserTypeModel } from '../Models/UserModel.js'
 import { authenticate } from '../services/authService.js'
+import { verifyToken } from '../middlewear/verifyToken.js'
 
 export const commonRout = exp.Router()
 
@@ -59,4 +60,12 @@ commonRout.put('/change-password', async (req, res) => {
 
     // send response
     res.status(200).json({ message: "Password updated successfully", payload: updatedUser })
+})
+
+//  handeling refresh
+commonRout.get('/check-auth', verifyToken("USER", "AUTHOR", "ADMIN"), (req,res) => {
+    res.status(200).json({
+        message: "authenticated",
+        payload: req.user
+    })
 })

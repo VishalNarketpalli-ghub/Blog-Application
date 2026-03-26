@@ -30,6 +30,7 @@ function UserProfile() {
                     "http://localhost:4000/user-api/user",
                     { withCredentials: true },
                 );
+                // console.log(res);
 
                 setArticles(res.data.payload);
                 // console.log(articles);
@@ -54,6 +55,7 @@ function UserProfile() {
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-[#42BAF0] to-[#EEABE3]">
             <div className="flex flex-col items-end">
+                {/* <img src="" alt="" /> */}
                 <button
                     onClick={onLogout}
                     className="items-end border rounded px-3 m-3 pointer bg-red-500 hover:opacity-70 cursor-pointer"
@@ -70,7 +72,7 @@ function UserProfile() {
                         className="border m-2 p-4 bg-gray-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-black hover:border-orange-700"
                     >
                         <p className="font-semibold">Title: {e.title}</p>
-                        <p>Auhor: {e.author}</p>
+                        <p>Auhor: {e.author.firstName}</p>
                         <p>Category: {e.category}</p>
                     </NavLink>
                 ))}

@@ -8,47 +8,62 @@ import UserProfile from "./Components/UserProfile";
 import AuthorProfile from "./Components/AuthorProfile";
 import { Toaster } from "react-hot-toast";
 import ArticleById from "./Components/ArticleById";
+import ProtectedRout from "./Components/ProtectedRout";
+import ErrorBoundary from "./Components/ErrorBoundary";
 
 function App() {
-  const routerObj = createBrowserRouter([
-    {
-      path: "/",
-      element: <RootLayout />,
-      children: [
+    const routerObj = createBrowserRouter([
         {
-          path: "",
-          element: <Home />,
+            path: "/",
+            element: <RootLayout />,
+            errorElement: <ErrorBoundary />,
+            children: [
+                {
+                    path: "",
+                    element: <Home />,
+                },
+                {
+                    path: "register",
+                    element: <Register />,
+                },
+                {
+                    path: "login",
+                    element: <Login />,
+                },
+                {
+                    path: "user-profile",
+                    element: (
+                        <ProtectedRout allowedRoles={["USER"]}>
+                            <UserProfile />
+                        </ProtectedRout>
+                    ),
+                },
+                {
+                    path: "author-profile",
+                    element: (
+                        <ProtectedRout alloweRoles={["AUTHOR"]}>
+                            <AuthorProfile />
+                        </ProtectedRout>
+                    ),
+                },
+                {
+                    path: "article",
+                    element: (
+                        <ProtectedRout allowedRoles={["AUTHOR", "USER"]}>
+                            <ArticleById />
+                        </ProtectedRout>
+                    ),
+                },
+            ],
         },
-        {
-          path: "register",
-          element: <Register />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "user-profile",
-          element: <UserProfile />,
-        },
-        {
-          path: "author-profile",
-          element: <AuthorProfile />,
-        },
-        {
-          path: "article",
-          element: <ArticleById />,
-        },
-      ],
-    },
-  ]);
+    ]);
 
-  return (
-    <div>
-      <Toaster position="top-center"></Toaster>
-      <RouterProvider router={routerObj} />
-    </div>
-  );
+    return (
+        <div>
+            <Toaster position="top-center"></Toaster>
+            <RouterProvider router={routerObj} />
+        </div>
+    );
 }
 
 export default App;

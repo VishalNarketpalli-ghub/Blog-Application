@@ -21,7 +21,7 @@ function Login() {
     const error = userAuth((state) => state.error);
 
     const onUserLogin = async (userCredObj) => {
-        // console.log(userCredObj)
+        // console.log(userCredObj);
         await login(userCredObj);
         // console.log("is Auth :", isAuthenticated)
     };
@@ -102,7 +102,7 @@ function Login() {
                     )}
                     {/* submit button */}
                     <div className="flex justify-center">
-                        <button className="bg-gradient-to-br from-[#F0C51D] via-[#DD6F91] to-[#9d174d] hover:opacity-90 transition-opacity text-white font-bold rounded mt-5 px-7 py-2 cursor-pointer">
+                        <button className="bg-gradient-to-br from-[#ffcc00] via-[#DD6F91] to-[#fe0022] hover:opacity-90 transition-opacity text-white font-bold rounded mt-5 px-7 py-2 cursor-pointer">
                             Login
                         </button>
                     </div>

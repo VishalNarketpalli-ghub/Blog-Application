@@ -4,21 +4,52 @@ import { UserTypeModel } from '../Models/UserModel.js'
 import { ArticleModel } from '../Models/ArticleModel.js'
 import { checkUser } from '../middlewear/checkUser.js'
 import { verifyToken } from '../middlewear/verifyToken.js'
+import { uploadToCloudinary } from '../config/cloudinaryUpload.js'
+import { upload } from '../config/multer.js'
 
 export const userRoute = exp.Router()
 
 
 // register user
-userRoute.post('/users', async (req, res) => {
-    //get user object from req
-    let userObj = req.body
+userRoute.post(
+    "/users",
+    upload.single("profileImageUrl"),
+    async (req, res, next) => {
+        let cloudinaryResult;
 
-    //call register function
-    const newUserObj = await register({ ...userObj, role: "USER" })
+        try {
+            // get user obj
+            let userObj = req.body;
 
-    //send response
-    res.status(201).json({ message: "User created", payload: newUserObj })
-})
+            //  Step 1: upload image to cloudinary from memoryStorage (if exists)
+            if (req.file) {
+                cloudinaryResult = await uploadToCloudinary(req.file.buffer);
+            }
+
+            // Step 2: call existing register()
+            const newUserObj = await register({
+                ...userObj,
+                role: "USER",
+                profileImageUrl: cloudinaryResult?.secure_url,
+            });
+
+            res.status(201).json({
+                message: "user created",
+                payload: newUserObj,
+            });
+
+        } catch (err) {
+
+            // Step 3: rollback 
+            if (cloudinaryResult?.public_id) {
+                await cloudinary.uploader.destroy(cloudinaryResult.public_id);
+            }
+
+            next(err); // send to your error middleware
+        }
+
+    }
+);
 
 
 // read all articles
@@ -27,7 +58,7 @@ userRoute.get('/user', verifyToken("USER"), async (req, res) => {
     // check for valid user is done by middlewear   
 
     // retreive all articles 
-    let articles = await ArticleModel.find({ isArticleActive: true })
+    let articles = await ArticleModel.find({ isArticleActive: true }).populate("author").populate("comments.user", "firstName email")
     // console.log(articles)
 
     // send response to user
@@ -56,8 +87,8 @@ userRoute.post('/users-comment', verifyToken("USER"), async (req, res) => {
                 }
             }
         }, { new: true }
-    )
+    ).populate("comments.user", "firstName email")
 
-    res.status(200).json({ message: "Comment added successfully", pauload: updatedComments })
+    res.status(200).json({ message: "Comment added successfully", payload: updatedComments })
 
 })
