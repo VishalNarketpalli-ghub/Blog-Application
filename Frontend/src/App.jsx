@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import ArticleById from "./Components/ArticleById";
 import ProtectedRout from "./Components/ProtectedRout";
 import ErrorBoundary from "./Components/ErrorBoundary";
+import AddArticles from "./Components/AddArticles";
+import EditArticle from "./Components/EditArticle";
 
 function App() {
     const routerObj = createBrowserRouter([
@@ -47,10 +49,26 @@ function App() {
                     ),
                 },
                 {
-                    path: "article",
+                    path: "article/:articleId",
                     element: (
                         <ProtectedRout allowedRoles={["AUTHOR", "USER"]}>
                             <ArticleById />
+                        </ProtectedRout>
+                    ),
+                },
+                {
+                    path: "add-articles",
+                    element: (
+                        <ProtectedRout alloweRoles={["AUTHOR"]}>
+                            <AddArticles />
+                        </ProtectedRout>
+                    ),
+                },
+                {
+                    path: "edit-article/:articleId",
+                    element: (
+                        <ProtectedRout alloweRoles={["AUTHOR"]}>
+                            <EditArticle />
                         </ProtectedRout>
                     ),
                 },

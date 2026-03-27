@@ -22,6 +22,12 @@ function UserProfile() {
         navigate("/login");
     };
 
+    const viewArticle = (currentArticle) => {
+        navigate(`/article/${currentArticle._id}`, {
+            state: currentArticle,
+        });
+    };
+
     useEffect(() => {
         const fetchArticles = async () => {
             setLoading(true);
@@ -58,23 +64,27 @@ function UserProfile() {
                 {/* <img src="" alt="" /> */}
                 <button
                     onClick={onLogout}
-                    className="items-end border rounded px-3 m-3 pointer bg-red-500 hover:opacity-70 cursor-pointer"
+                    className="items-end border rounded px-3 m-3 p-3 pointer bg-red-500 hover:opacity-70 cursor-pointer"
                 >
                     Logout
                 </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-white">
                 {articles.map((e) => (
-                    <NavLink
-                        to="/article"
-                        state={e}
+                    <div
                         key={e._id}
                         className="border m-2 p-4 bg-gray-200 bg-gradient-to-br from-indigo-950 via-slate-900 to-black hover:border-orange-700"
                     >
                         <p className="font-semibold">Title: {e.title}</p>
                         <p>Auhor: {e.author.firstName}</p>
                         <p>Category: {e.category}</p>
-                    </NavLink>
+                        <button
+                            onClick={() => viewArticle(e)}
+                            className="text-blue-300 cursor-pointer "
+                        >
+                            View Article
+                        </button>
+                    </div>
                 ))}
             </div>
         </div>

@@ -5,11 +5,6 @@ function ProtectedRout({ children, alloweRoles }) {
     // get user login details from store
     const { loading, currentUser, isAuthenticated } = userAuth();
 
-    // check loading state
-    if (loading) {
-        return <p>Loading...</p>;
-    }
-
     // check authentication
     if (!isAuthenticated) {
         return <Navigate to="/login" replace />;
@@ -19,6 +14,12 @@ function ProtectedRout({ children, alloweRoles }) {
     if (alloweRoles && !alloweRoles.includes(currentUser?.role)) {
         return <Navigate to="/login" replace />;
     }
+
+    // check loading state
+    if (loading) {
+        return <p>Loading...</p>;
+    }
+
     return children;
 }
 

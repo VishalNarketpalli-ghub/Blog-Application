@@ -83,7 +83,7 @@ authorApp.get('/articles/:authorId', verifyToken("AUTHOR"), async (req, res) => 
     let authorId = req.params.authorId
 
     // read article by author
-    let articles = await ArticleModel.find({ author: authorId, isArticleActive: true }).populate("author", "firstName email")
+    let articles = await ArticleModel.find({ author: authorId, isArticleActive: true }).populate("author", "firstName email").populate("comments.user", "firstName")
 
     // send res
     res.status(201).json({ message: "Articles fetched", payload: articles })
@@ -101,7 +101,7 @@ authorApp.patch('/articles', verifyToken("AUTHOR"), async (req, res) => {
         return res.status(404).json({ message: "Article not found" })
     }
 
-    let foundArticle = await ArticleModel.findByIdAndUpdate(articleId, { $set: { title, category, content } }, { new: true })
+    let foundArticle = await ArticleModel.findByIdAndUpdate(articleId, { $set: { title, category, content } }, { new: true }).populate("author", "firstName email").populate("comments.user", "firstName")
     res.status(200).json({ message: "Article updated successfullt", payload: foundArticle })
 })
 
@@ -116,7 +116,7 @@ authorApp.put('/articles-delete', verifyToken("AUTHOR"), async (req, res) => {
         return res.status(404).json({ message: "Article not found" })
     }
 
-    let updatedArticle = await ArticleModel.findByIdAndUpdate(articleId, { $set: { isArticleActive: false } }, { new: true })
+    let updatedArticle = await ArticleModel.findByIdAndUpdate(articleId, { $set: { isArticleActive: false } }, { new: true }).populate("author", "firstName email").populate("comments.user", "firstName")
 
     // send response
     res.status(200).json({ message: "Article deleted", payload: updatedArticle })

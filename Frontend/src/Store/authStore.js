@@ -5,7 +5,7 @@ import axios from 'axios'
 export const userAuth = create((set) => ({
     currentUser: null,
     isAuthenticated: false,
-    loading: false,
+    loading: true,
     error: null,
     login: async (userCredWithRole) => {
         try {

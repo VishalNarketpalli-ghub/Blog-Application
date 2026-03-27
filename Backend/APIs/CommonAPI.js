@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import { UserTypeModel } from '../Models/UserModel.js'
 import { authenticate } from '../services/authService.js'
 import { verifyToken } from '../middlewear/verifyToken.js'
+import { ArticleModel } from '../Models/ArticleModel.js'
 
 export const commonRout = exp.Router()
 
@@ -68,4 +69,18 @@ commonRout.get('/check-auth', verifyToken("USER", "AUTHOR", "ADMIN"), (req,res) 
         message: "authenticated",
         payload: req.user
     })
+})
+
+// read article by ID
+commonRout.get('/article/:articleId', verifyToken("USER", "AUTHOR", "ADMIN"), async (req, res) => {
+    let articleId = req.params.articleId
+    try {
+        let article = await ArticleModel.findOne({ _id: articleId, isArticleActive: true }).populate("author", "firstName email").populate("comments.user", "firstName")
+        if(!article){
+            return res.status(404).json({message: "Article not found"})
+        }
+        res.status(200).json({message: "Article fetched", payload: article})
+    } catch (err) {
+        res.status(500).json({message: "Error fetching article", error: err.message})
+    }
 })

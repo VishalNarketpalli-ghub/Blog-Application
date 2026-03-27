@@ -33,6 +33,7 @@ function Login() {
                 navigate("/user-profile");
             }
             if (currentUser.role === "AUTHOR") {
+                toast.success("Logged in successfully");
                 navigate("/author-profile");
             }
         }
@@ -46,22 +47,6 @@ function Login() {
                     onSubmit={handleSubmit(onUserLogin)}
                     className="p-20 rounded-lg max-w-lg shadow-lg mb-30 bg-gradient-to-br from-indigo-950 via-slate-900 to-black"
                 >
-                    {/* role */}
-                    {/* <div className='flex gap-6 justify-items-end items-center '>
-                    <h2 className='text-xl'>Select Your Role: </h2>
-                    <label>
-                    <input type="radio" value="USER" {...register("role", { required: "Role is required" })} />
-                    <span className="ml-2">User</span>
-                    </label>
-                    <label>
-                    <input type="radio" value="AUTHOR" {...register("role", { required: "Role is required" })} />
-                    <span className="ml-2">Author</span>
-                    </label>
-                    <label>
-                    <input type="radio" value="ADMIN" {...register("role", { required: "Role is required" })} />
-                    <span className="ml-2">Admin</span>
-                    </label>
-                </div> */}
                     <p className="text-3xl text-center">Login</p>
 
                     {errors.role && (
